@@ -2,15 +2,15 @@ name: test
 
 on:
   push:
-    branches: main
+    branches:
+      - main
 
 jobs:
   test_deploy:
-    runs_on: ubuntu@latest
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Echo the message
-        run: |
-          echo "Hello World"
-      - name: Dime la fecha
-        run: date
-      - run ls -l
+        run: echo "Hello World"
