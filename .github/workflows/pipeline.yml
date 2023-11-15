@@ -20,6 +20,8 @@ jobs:
           cache: yarn
       - name: Install yarn
         run: npm install -g yarn
+      - name: Clear cache
+        run: yarn cache clean
       - name: Install libraries
         run: yarn
       - name: Build project
