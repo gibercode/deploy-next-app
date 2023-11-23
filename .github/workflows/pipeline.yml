@@ -39,3 +39,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+          script: |
+            chmod 400 ${{ secrets.EC2_SSH_KEY }} 
+            ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@ec2-54-86-124-156.compute-1.amazonaws.com
