@@ -9,13 +9,6 @@ jobs:
   ci_cd:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -39,3 +32,17 @@ jobs:
         with:
           name: out
           path: out/
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            mkdir test
+            cd ./test
+            git pull
+            yarn 
+            yarn cache clean
+            yarn dev
