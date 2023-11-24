@@ -32,13 +32,10 @@ jobs:
         with:
           name: out
           path: out/
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-          script: |
-            chmod 400 ${{ secrets.EC2_SSH_KEY }} 
-            ssh -i ${{ secrets.EC2_SSH_KEY }} ubuntu@ec2-54-86-124-156.compute-1.amazonaws.com
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
