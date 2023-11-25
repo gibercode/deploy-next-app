@@ -34,7 +34,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: ".next,public"
           target: "/app"
-          script: mkdir app
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
