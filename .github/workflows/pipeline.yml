@@ -25,13 +25,15 @@ jobs:
       - name: Install libraries
         run: yarn
       - name: Build project
-        run: |
-          npx next build
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        run: npx next build
+      - name: Transfer Build to EC2
+        uses: appleboy/scp-action@master
         with:
-          name: out
-          path: out/
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: ".next,public"
+          target: "/app"
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -40,9 +42,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            mkdir test
-            cd ./test
-            git pull
-            yarn 
-            yarn cache clean
-            yarn dev
+            cd /app
+            npm install --production
+            pm2 restart all
