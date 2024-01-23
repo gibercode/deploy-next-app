@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /var/www/app/
-            npm install --production
+            ls
+            cd /var/www/
+            npm install 
             pm2 restart all
